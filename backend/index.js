@@ -30,16 +30,6 @@ mongoose.connect(database, {
 // Root Route for testing
 
 app.get('/', async (req, res) => {
-    const item = new MyStock({
-        otype: "o45",
-        bso: [
-            {length: "67mm", quantity:50}
-        ],
-        dso: [
-            {length: "97mm", quantity:550}
-        ]
-    });
-    item.save();
     res.send('working');
 })
 
@@ -48,11 +38,16 @@ app.get('/', async (req, res) => {
 
 app.get('/items', async (req, res) => {
     const arr = [];
-    const items = await MyStock.find({});
-    items.forEach((item) => {
-        arr.push(item.otype);
-    })
-    res.send(arr);
+    try{
+        const items = await MyStock.find({});
+        items.forEach((item) => {
+            arr.push(item.otype);
+        })
+        res.send(arr);
+    }catch{
+        res.send('oops some error');
+    }
+    
 })
 
 app.post('/add-item', (req,res) => {

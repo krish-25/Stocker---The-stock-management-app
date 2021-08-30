@@ -26,7 +26,7 @@ const HomeScreen = ({navigation}) => {
         setRefreshing(true);
         setItem('');
         closeView();
-        fetch(`http://10.0.2.2:5000/items`,{
+        fetch(`https://stocker-ganpati-foils.herokuapp.com/items`,{
             method: 'GET'
         })
         .then(res => res.json())
@@ -134,7 +134,8 @@ const HomeScreen = ({navigation}) => {
                         <View style={tw`flex-row justify-between items-center`}>
                             <Text style={tw`font-bold text-2xl p-2 rounded-lg`} key={key}>{item}</Text>
                             <Card.Divider />
-                            <Button 
+                            <View style={tw`flex-row`}>
+                            <Button
                             title="DSO"
                             type="outline"
                             buttonStyle={
@@ -163,12 +164,13 @@ const HomeScreen = ({navigation}) => {
                                 })
                             }
                             />
-                            <Icon
-                            // onPress= {removeItem}
+                            </View>
+                            {/* <Icon
+                            onPress= {removeItem}
                             name="delete"
                             color="red"
                             type="antdesign"
-                            />
+                            /> */}
                         </View>
                     </Card>
                 ))
