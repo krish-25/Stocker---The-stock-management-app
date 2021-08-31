@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, Alert } from 'react-native'
 import { Card, Text, Input, Button } from 'react-native-elements'
 import tw from 'tailwind-react-native-classnames'
 import Wrapper from '../components/Wrapper'
@@ -19,7 +19,7 @@ const DetailsScreen = ({route, navigation}) => {
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
         setX('');
-        fetch(`http://10.0.2.2:5000/quantity/${item}/${option}/${length}`,{
+        fetch(`https://ganpati-foils.herokuapp.com/quantity/${item}/${option}/${length}`,{
             method: 'GET'
         })
         .then(res => res.json())
@@ -28,33 +28,32 @@ const DetailsScreen = ({route, navigation}) => {
         wait(2000).then(() => setRefreshing(false));
     }, []);
 
-    function addStock(e){
-        e.preventDefault();
-        fetch(`http://10.0.2.2:5000/add-stock`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                otype: {item},
-                option: {option},
-                length: {length},
-                quantity: {quantity},
-                x: {x}
+    function addStock(x){
+            fetch(`https://ganpati-foils.herokuapp.com/add-stock`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    otype: {item},
+                    option: {option},
+                    length: {length},
+                    quantity: {quantity},
+                    x: {x}
+                })
+            }).then(data => {
+                if(!data.ok){
+                    throw Error(data.status);
+                }
+            }).catch(e=> {
+                console.log(e);
             })
-        }).then(data => {
-            if(!data.ok){
-                throw Error(data.status);
-            }
-        }).catch(e=> {
-            console.log(e);
-        })
-        setX('');
+            setX('');
     }
 
     function subStock(e){
         e.preventDefault();
-        fetch(`http://10.0.2.2:5000/sub-stock`, {
+        fetch(`https://ganpati-foils.herokuapp.com/sub-stock`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -89,6 +88,7 @@ const DetailsScreen = ({route, navigation}) => {
                     <Input
                     onChangeText = {(val) => setX(val)}
                     value = {x}
+                    keyboardType ='numeric'
                     placeholder='No of Units'
                     />
                     <View style = {tw`flex-row justify-between`}>

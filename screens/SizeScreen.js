@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, Alert } from 'react-native'
 import { Card, Button, Input, Icon } from 'react-native-elements'
 import tw from 'tailwind-react-native-classnames'
 import Wrapper from '../components/Wrapper'
@@ -20,12 +20,23 @@ const SizeScreen = ({route, navigation}) => {
     const item = itemtype.item;
     const option = opt;
 
+    useEffect(() => {
+        navigation.addListener('focus', async () => {
+            fetch(`https://ganpati-foils.herokuapp.com/lengths/${item}/${option}`,{
+            method: 'GET'
+        })
+            .then(res => res.json())
+            .then(data => setData(data))
+            .catch(error => console.error(error));
+        })
+    })
+
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
         setLen('');
         setQuant('');
         closeView();
-        fetch(`http://10.0.2.2:5000/lengths/${item}/${option}`,{
+        fetch(`https://ganpati-foils.herokuapp.com/lengths/${item}/${option}`,{
             method: 'GET'
         })
         .then(res => res.json())
@@ -35,7 +46,7 @@ const SizeScreen = ({route, navigation}) => {
     }, []);
 
     useEffect(() => {
-        fetch(`http://10.0.2.2:5000/lengths/${item}/${option}`,{
+        fetch(`https://ganpati-foils.herokuapp.com/lengths/${item}/${option}`,{
             method: 'GET'
         })
         .then(res => res.json())
@@ -56,9 +67,9 @@ const SizeScreen = ({route, navigation}) => {
         setView(true)
     }
 
-    function addItem(e){
-        e.preventDefault();
-        fetch(`http://10.0.2.2:5000/add-length`, {
+    function addItem(){
+        if(!isNaN(len) || !isNaN(quant)){
+            fetch(`https://ganpati-foils.herokuapp.com/add-length`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -69,16 +80,22 @@ const SizeScreen = ({route, navigation}) => {
                 quantity: {quant},
                 option: {option}
             })
-        }).then(data => {
-            if(!data.ok){
-                throw Error(data.status);
-            }
-        }).catch(e=> {
-            console.log(e);
-        });
-        setLen('');
-        setQuant('');
-        closeView();
+            }).then(data => {
+                if(!data.ok){
+                    throw Error(data.status);
+                }
+            }).catch(e=> {
+                console.log(e);
+            });
+            setLen('');
+            setQuant('');
+            closeView();
+        }else{
+            Alert.alert('OOPS!', 'Length and Quantity must be over 1 characters long', [
+                {text: 'OK', onPress: () => console.log('alert closed')}
+            ]);
+        }
+        
     }
 
 
@@ -87,15 +104,15 @@ const SizeScreen = ({route, navigation}) => {
         <View style={styles.fl}>
             <View style={tw`bg-gray-300 px-5`}>
                 <View style={tw`flex-row items-center justify-between`}>
-                    <Text style={tw`text-gray-600 font-bold text-xl ml-1 mr-3`}>Length</Text>
-                    <Text style={tw`text-gray-600 font-bold text-xl ml-12`}>Quantity</Text>
-                    <View style={tw`ml-24`}>
-                    <Icon raised          
-                    onPress={ handleView }
-                    name="plus"
-                    color="orange"
-                    type="antdesign"
-                    />
+                    <Text style={tw`text-gray-600 text-lg`}>Length</Text>
+                    <Text style={tw`text-gray-600 text-lg`}>Quantity</Text>
+                    <View style={tw``}>
+                        <Icon raised          
+                        onPress={ handleView }
+                        name="plus"
+                        color="orange"
+                        type="antdesign"
+                        />
                     </View>
                 </View>
                 <View style={tw.style(`mb-1`,view && `hidden`)}>
@@ -135,11 +152,11 @@ const SizeScreen = ({route, navigation}) => {
                             <View style={tw`flex-row justify-between items-center`}>
                                 <View style={tw`flex`}>
                                     {/* <Text>Length</Text> */}
-                                    <Text style={tw`font-bold text-xl`} key="key">{i.length}</Text>
+                                    <Text style={tw`text-xl text-pink-800`} key="key">{i.length}</Text>
                                 </View>
                                 <View style={tw`flex`}>
                                     {/* <Text>Quantity</Text> */}
-                                    <Text style={tw`font-bold text-xl`} key="key">{i.quantity}</Text>
+                                    <Text style={tw`text-xl`} key="key">{i.quantity}</Text>
                                 </View>
                                 
                                 <Button

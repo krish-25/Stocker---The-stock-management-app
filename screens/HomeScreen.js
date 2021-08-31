@@ -22,11 +22,22 @@ const HomeScreen = ({navigation}) => {
 
     const [refreshing, setRefreshing] = useState(false);
 
+    // useEffect(() => {
+    //     navigation.addListener('focus', async () => {
+    //         await fetch(`https://ganpati-foils.herokuapp.com/items`,{
+    //         method: 'GET'
+    //     })
+    //         .then(res => res.json())
+    //         .then(data => setData(data))
+    //         .catch(error => console.error(error));
+    //     })
+    // })
+
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
         setItem('');
         closeView();
-        fetch(`https://stocker-ganpati-foils.herokuapp.com/items`,{
+        fetch(`https://ganpati-foils.herokuapp.com/items`,{
             method: 'GET'
         })
         .then(res => res.json())
@@ -36,7 +47,7 @@ const HomeScreen = ({navigation}) => {
     }, []);
 
     useEffect(() => {
-        fetch(`http://10.0.2.2:5000/items`,{
+        fetch(`https://ganpati-foils.herokuapp.com/items`,{
             method: 'GET'
         })
         .then(res => res.json())
@@ -44,9 +55,8 @@ const HomeScreen = ({navigation}) => {
         .catch(error => console.error(error));
       }, []);
 
-    function addItem(e){
-        e.preventDefault();
-        fetch(`http://10.0.2.2:5000/add-item`, {
+    function addItem(){
+            fetch(`https://ganpati-foils.herokuapp.com/add-item`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -54,16 +64,15 @@ const HomeScreen = ({navigation}) => {
             body: JSON.stringify({
                 otype: {item}
             })
-        }).then(data => {
-            if(!data.ok){
-                throw Error(data.status);
-            }
-        }).catch(e=> {
-            console.log(e);
-        })
-        setItem('')
-        closeView();
-
+            }).then(data => {
+                if(!data.ok){
+                    throw Error(data.status);
+                }
+            }).catch(e=> {
+                console.log(e);
+            })
+            setItem('')
+            closeView();
     }
 
     // function removeItem(e){
@@ -92,23 +101,21 @@ const HomeScreen = ({navigation}) => {
 
     return (
         <Wrapper refreshFunction = {onRefresh}>
-        <View>
-            <View style={tw`bg-gray-300`}> 
-                <View style={tw`flex-row justify-center mt-1`}>
+        <View style={tw`mb-3`}>
+            <View style={tw`bg-gray-300 flex`}> 
+                <View style={tw`flex-row mt-1 justify-center items-center`}>
                     <Icon  raised
                     onPress={ handleView }
                     name="plus"
                     color="orange"
                     type="antdesign"
                     />
-                    <Text style={tw`pt-5 font-bold text-base text-gray-600 text-center`}>
-                        Click to add more items.
-                    </Text>
+                    
                 </View>
                 <View style={tw.style(`mb-2`,view && `hidden`)}>
                     <Card>
-                        <View style={tw`flex-row justify-between px-5`}>
-                            <Text>ADD ITEMS</Text>
+                        <View style={tw`flex-row justify-between`}>
+                            <Text>ADD ITEM</Text>
                             <Icon
                             onPress={closeView}
                             name="close"
@@ -116,7 +123,7 @@ const HomeScreen = ({navigation}) => {
                             type="antdesign"
                             />
                         </View>
-                        <View style={tw`px-5`}>
+                        <View style={tw``}>
                             <Input 
                             onChangeText={(val) => setItem(val)}
                             value ={item}
@@ -132,7 +139,7 @@ const HomeScreen = ({navigation}) => {
                 data.map((item,key) => (
                     <Card>
                         <View style={tw`flex-row justify-between items-center`}>
-                            <Text style={tw`font-bold text-2xl p-2 rounded-lg`} key={key}>{item}</Text>
+                            <Text style={tw`text-2xl text-pink-800 p-2 rounded-lg`} key={key}>{item}</Text>
                             <Card.Divider />
                             <View style={tw`flex-row`}>
                             <Button
