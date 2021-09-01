@@ -4,9 +4,9 @@
     "slug": "stocker",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/ganpati-foils-logo.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/splash-ganpati.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

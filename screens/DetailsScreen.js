@@ -28,7 +28,7 @@ const DetailsScreen = ({route, navigation}) => {
         wait(2000).then(() => setRefreshing(false));
     }, []);
 
-    function addStock(x){
+    function addStock(){
             fetch(`https://ganpati-foils.herokuapp.com/add-stock`, {
                 method: 'POST',
                 headers: {

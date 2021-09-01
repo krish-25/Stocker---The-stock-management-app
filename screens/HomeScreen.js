@@ -102,7 +102,7 @@ const HomeScreen = ({navigation}) => {
     return (
         <Wrapper refreshFunction = {onRefresh}>
         <View style={tw`mb-3`}>
-            <View style={tw`bg-gray-300 flex`}> 
+            <View style={tw`flex`}> 
                 <View style={tw`flex-row mt-1 justify-center items-center`}>
                     <Icon  raised
                     onPress={ handleView }
@@ -110,9 +110,16 @@ const HomeScreen = ({navigation}) => {
                     color="orange"
                     type="antdesign"
                     />
-                    
+                    <Icon  raised
+                    onPress={
+                        () => navigation.navigate('Graph')
+                    }
+                    name="barchart"
+                    color="orange"
+                    type="antdesign"
+                    />
                 </View>
-                <View style={tw.style(`mb-2`,view && `hidden`)}>
+                <View style={tw.style(`mb-1`,view && `hidden`)}>
                     <Card>
                         <View style={tw`flex-row justify-between`}>
                             <Text>ADD ITEM</Text>
