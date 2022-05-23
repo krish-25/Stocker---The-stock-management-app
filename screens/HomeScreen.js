@@ -13,7 +13,6 @@ const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   }
 
-// sumeet sahni
 
 const HomeScreen = ({navigation}) => {
     const [data, setData] = useState([]);
@@ -22,16 +21,6 @@ const HomeScreen = ({navigation}) => {
 
     const [refreshing, setRefreshing] = useState(false);
 
-    // useEffect(() => {
-    //     navigation.addListener('focus', async () => {
-    //         await fetch(`https://ganpati-foils.herokuapp.com/items`,{
-    //         method: 'GET'
-    //     })
-    //         .then(res => res.json())
-    //         .then(data => setData(data))
-    //         .catch(error => console.error(error));
-    //     })
-    // })
 
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
@@ -75,15 +64,6 @@ const HomeScreen = ({navigation}) => {
             closeView();
     }
 
-    // function removeItem(e){
-    //     e.preventDefault();
-    //     fetch(`http://10.0.2.2:5000/items`,{
-    //         method: 'GET'
-    //     })
-    //     .then(res => res.json())
-    //     .then(data => setData(data))
-    //     .catch(error => console.error(error));
-    // }
 
     function handleView(){
         if(view === true ){
@@ -107,14 +87,6 @@ const HomeScreen = ({navigation}) => {
                     <Icon  raised
                     onPress={ handleView }
                     name="plus"
-                    color="orange"
-                    type="antdesign"
-                    />
-                    <Icon  raised
-                    onPress={
-                        () => navigation.navigate('Graph')
-                    }
-                    name="barchart"
                     color="orange"
                     type="antdesign"
                     />
@@ -146,7 +118,7 @@ const HomeScreen = ({navigation}) => {
                 data.map((item,key) => (
                     <Card>
                         <View style={tw`flex-row justify-between items-center`}>
-                            <Text style={tw`text-2xl text-pink-800 p-2 rounded-lg`} key={key}>{item}</Text>
+                            <Text style={tw`text-2xl text-green-700 p-2 rounded-lg`} key={key}>{item}</Text>
                             <Card.Divider />
                             <View style={tw`flex-row`}>
                             <Button
@@ -179,12 +151,6 @@ const HomeScreen = ({navigation}) => {
                             }
                             />
                             </View>
-                            {/* <Icon
-                            onPress= {removeItem}
-                            name="delete"
-                            color="red"
-                            type="antdesign"
-                            /> */}
                         </View>
                     </Card>
                 ))

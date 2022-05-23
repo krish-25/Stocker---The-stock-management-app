@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/ganpati-foils-logo.png",
     "splash": {
-      "image": "./assets/splash-ganpati.png",
+      "image": "./assets/Green-patta-ganesha.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -21,14 +21,15 @@
     },
     "android": {
       "package": "com.ganpatifoils.stocker",
+      "enableDangerousExperimentalLeanBuilds": true,
       "versionCode": 1,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/ganpati-foils-logo.png",
         "backgroundColor": "#FFFFFF"
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/ganpati-foils-logo.png"
     }
   }
 }

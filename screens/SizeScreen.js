@@ -176,11 +176,6 @@ const SizeScreen = ({route, navigation}) => {
                                     })
                                 }
                                 />
-                                {/* <Icon
-                                name="delete"
-                                color="red"
-                                type="antdesign"
-                                /> */}
                             </View>
                         </View>
                         
